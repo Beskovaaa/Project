@@ -82,7 +82,7 @@ namespace Расчет_отпускных
                 worksheet.Range["L6"].Text = "Сумма отпускных";
                 worksheet.Range["M6"].Text = "ЗП в месяц без больгичных и отпускных";
                 worksheet.Range["N6"].Text = "Дни для расчета ";
-
+                worksheet.Range["E6:N6"].CellStyle.Font.Bold = true;
 
 
                 //Save the Excel document
