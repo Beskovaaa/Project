@@ -18,6 +18,9 @@
         </Grid.ColumnDefinitions>
 
         <ss:GcSpreadSheet x:Name="spread" Grid.Row="0" Grid.Column="1"/>
+        <Image Source="Image\DQS-Logo.jpg" Grid.Row="1" Grid.Column="0"/>
+        <Button Content="загрузка таблицы" Grid.Column="1" HorizontalAlignment="Left" Margin="47,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Click="Button_Click"/>
+        <Button Content="выгрузка в Excel" Grid.Column="1" HorizontalAlignment="Left" Margin="47,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Click="Button_Click_1"/>
 
     </Grid>
 </Window>

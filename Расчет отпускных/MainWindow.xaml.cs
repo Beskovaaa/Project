@@ -28,6 +28,35 @@ namespace Расчет_отпускных
             InitializeComponent();
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.DefaultExt = ".xlsx";
+            ofd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+            var sel = ofd.ShowDialog();
+            if (sel == true)
+            {
+                //one line of code to import the Excel file into Spread.NET  
+                spread.OpenExcel(ofd.FileName);
+            }
+            
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
+            sfd.FileName = "Active.xlsx";
+            sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+            sfd.DefaultExt = ".xlsx";
+            var sel = sfd.ShowDialog();
+            if (sel == true)
+            {
+                spread.SaveExcel(sfd.FileName,
+                    GrapeCity.Windows.SpreadSheet.Data.ExcelFileFormat.XLSX);
+            }
+        }
+
+
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{
         //    //Create an instance of ExcelEngine
