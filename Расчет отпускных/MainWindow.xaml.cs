@@ -1,20 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Drawing;
 using System.IO;
-using Syncfusion.XlsIO;
+using System.Windows;
+using System.Windows.Documents;
+using OfficeOpenXml;
 
 namespace Расчет_отпускных
 {
@@ -25,100 +15,69 @@ namespace Расчет_отпускных
     {
         public MainWindow()
         {
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             InitializeComponent();
+            var file = new FileInfo(@"D:\C#\Расчет отпускных\bin\Debug\person.xlsx");
+            var data = GetData();
+            SaveExcel(data, file);
+            MainGrid.ItemsSource = GetExcel(file);
+        }
+
+        private List<Model> GetExcel(FileInfo file)
+        {
+            List<Model> getList = new List<Model>();
+            using (var package = new ExcelPackage(file))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                for (int i = 2; i <= 6; i++)
+                {
+                    getList.Add(new Model()
+                    {
+                        month = ws.Cells[i, 1].Value.ToString(),
+                        number1 = int.Parse(ws.Cells[i, 2].Value.ToString()),
+                        number2 = int.Parse(ws.Cells[i, 3].Value.ToString()),
+                        sum = int.Parse(ws.Cells[i, 4].Value.ToString()),
+                        add_inform = ws.Cells[i, 5].Value.ToString()
+                    });
+                }
+            }
+            return getList;
+        }
+        private void SaveExcel(List<Model> data, FileInfo file)
+        {
+            using (var package = new ExcelPackage(file))
+            {
+                if (!file.Exists)
+                {
+                    var ws = package.Workbook.Worksheets.Add("Main");
+                    var range = ws.Cells["A1"].LoadFromCollection(data, true);
+                    range.AutoFitColumns();
+                    package.Save();
+                }
+            }
+        }
+        static List<Model> GetData()
+        {
+            List<Model> output = new List<Model>()
+            {
+                new Model() { month = "январь", number1 = 1, number2 = 3, sum = 4, add_inform = "=B1+C1" },
+                new Model() { month = "февраль", number1 = 2, number2 = 2, sum = 4, add_inform = "=B2+C2" },
+                new Model() { month = "март", number1 = 5, number2 = 5, sum = 10, add_inform = "=B3+C3" },
+                new Model() { month = "апрель", number1 = 6, number2 = 4, sum = 10, add_inform = "=B4+C4" },
+                new Model() { month = "май", number1 = 8, number2 = 9, sum = 17, add_inform = "=B5+C5" }
+            };
+            return output;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
-            ofd.DefaultExt = ".xlsx";
-            ofd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
-            var sel = ofd.ShowDialog();
-            if (sel == true)
-            {
-                //one line of code to import the Excel file into Spread.NET  
-                spread.OpenExcel(ofd.FileName);
-            }
             
+
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
-            sfd.FileName = "Active.xlsx";
-            sfd.Filter = "Excel Documents (*.xlsx)|*.xlsx";
-            sfd.DefaultExt = ".xlsx";
-            var sel = sfd.ShowDialog();
-            if (sel == true)
-            {
-                spread.SaveExcel(sfd.FileName,
-                    GrapeCity.Windows.SpreadSheet.Data.ExcelFileFormat.XLSX);
-            }
+
         }
-
-
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //Create an instance of ExcelEngine
-        //    using (ExcelEngine excelEngine = new ExcelEngine())
-        //    {
-        //        IApplication application = excelEngine.Excel;
-
-        //        application.DefaultVersion = ExcelVersion.Excel2016;
-
-        //        //Create a workbook
-        //        IWorkbook workbook = application.Workbooks.Create(1);
-        //        IWorksheet worksheet = workbook.Worksheets[0];
-
-        //        //Adding a picture
-        //        FileStream imageStream = new FileStream("../../Image/DQS-Logo.jpg", FileMode.Open, FileAccess.Read);
-        //        IPictureShape shape = worksheet.Pictures.AddPicture(1, 1, imageStream,15,10);
-        //        worksheet.Range["A1:A2"].Merge();
-        //        worksheet.Range["A1:C1"].Merge();
-
-        //        //Disable gridlines in the worksheet
-        //        worksheet.IsGridLinesVisible = false;
-
-        //        //Enter values to the cells from A3 to A5
-        //        worksheet.Range["A6"].Text = "150003, г.Ярославль";
-        //        worksheet.Range["A7"].Text = "dqs@dqs-russia.ru";
-        //        worksheet.Range["A8"].Text = "Phone: +7 4852 69 50 21";
-
-        //        //Make the text bold
-        //        worksheet.Range["A6:A8"].CellStyle.Font.Bold = true;
-
-        //        //Merge cells
-        //        worksheet.Range["F1:N1"].Merge();
-
-        //        //Enter text to the cell D1 and apply formatting.
-        //        worksheet.Range["F1"].Text = "ОРГАН ПО СЕРТИФИКАЦИИ ООО ССУ ДЭКУЭС";
-        //        worksheet.Range["F1"].CellStyle.Font.Bold = true;
-        //        worksheet.Range["F1"].CellStyle.Font.RGBColor = System.Drawing.Color.FromArgb(42, 118, 189);
-        //        worksheet.Range["F1"].CellStyle.Font.Size = 18;
-
-
-        //        //Create table with the data in given range
-        //        IListObject table = worksheet.ListObjects.Create("Table", worksheet["E6:N19"]);
-
-        //        //Create data
-        //        worksheet.Range["E6"].Text = "№";                
-        //        worksheet.Range["F6"].Text = "Месяц";
-        //        worksheet.Range["G6"].Text = "Кол-во дней больничного";
-        //        worksheet.Range["H6"].Text = "Кол-во дней отпуска";
-        //        worksheet.Range["I6"].Text = "Итого дней";
-        //        worksheet.Range["J6"].Text = "Сумма ЗП";
-        //        worksheet.Range["K6"].Text = "Сумма больничных";
-        //        worksheet.Range["L6"].Text = "Сумма отпускных";
-        //        worksheet.Range["M6"].Text = "ЗП в месяц без больгичных и отпускных";
-        //        worksheet.Range["N6"].Text = "Дни для расчета ";
-        //        worksheet.Range["E6:N6"].CellStyle.Font.Bold = true;
-
-
-        //        //Save the Excel document
-        //        workbook.SaveAs("Расчет.xlsx");
-
-        //        System.Diagnostics.Process.Start("Расчет.xlsx");
-        //    }
-        //}
     }
 }
