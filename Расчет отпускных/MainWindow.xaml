@@ -21,7 +21,7 @@
         <Image Source="Image\DQS-Logo.jpg" Grid.Row="1" Grid.Column="0"/>
         <Button Content="загрузка таблицы" Grid.Column="1" HorizontalAlignment="Left" Margin="47,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Click="Button_Click"/>
         <Button Content="выгрузка в Excel" Grid.Column="1" HorizontalAlignment="Left" Margin="47,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Click="Button_Click_1"/>
-        <DataGrid Grid.Column="1" HorizontalAlignment="Left" Height="424" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" x:Name="MainGrid"/>
+        <DataGrid Grid.Column="1" HorizontalAlignment="Left" Height="424" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" x:Name="MainGrid" CellEditEnding="MainGrid_CellEditEnding"/>
 
     </Grid>
 </Window>

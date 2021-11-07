@@ -13,14 +13,22 @@ namespace Расчет_отпускных
     /// </summary>
     public partial class MainWindow : Window
     {
+        public bool FixFlag;
         public MainWindow()
         {
+            FixFlag = false;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             InitializeComponent();
             var file = new FileInfo(@"D:\C#\Расчет отпускных\bin\Debug\person.xlsx");
             var data = GetData();
             SaveExcel(data, file);
             MainGrid.ItemsSource = GetExcel(file);
+            //GetDataFromGrid();
+            //SaveExcelFromGrid(GetDataFromGrid(), file);
+            //foreach (Model item in MainGrid.Items)
+            //{
+            //    MessageBox.Show(item.month);
+            //}
         }
 
         private List<Model> GetExcel(FileInfo file)
@@ -56,6 +64,17 @@ namespace Расчет_отпускных
                 }
             }
         }
+        private void SaveExcelFromGrid(List<Model> data, FileInfo file)
+        {
+            using (var package = new ExcelPackage(file))
+            {
+                //if (file.Exists) file.Delete(); 
+                var ws = package.Workbook.Worksheets[0];
+                var range = ws.Cells["A1"].LoadFromCollection(data, true);
+                range.AutoFitColumns();
+                package.Save();
+            }
+        }
         static List<Model> GetData()
         {
             List<Model> output = new List<Model>()
@@ -68,7 +87,15 @@ namespace Расчет_отпускных
             };
             return output;
         }
-
+        public List<Model> GetDataFromGrid()
+        {
+            List<Model> output = new List<Model>();
+            foreach (var mainGridItem in MainGrid.Items)
+            {
+                output.Add((Model)mainGridItem);
+            }
+            return output;
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
@@ -78,6 +105,26 @@ namespace Расчет_отпускных
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void MainGrid_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
+        {
+            List<Model> getList = new List<Model>();
+            for (int i = 0; i < 5; i++)
+            {
+                Model mod = (Model)MainGrid.Items[i];
+                getList.Add(new Model()
+                {
+                    month = mod.month,
+                    number1 = mod.number1,
+                    number2 = mod.number2,
+                    sum = mod.sum,
+                    add_inform = mod.add_inform
+                });
+            }
+            var file = new FileInfo(@"D:\C#\Расчет отпускных\bin\Debug\person.xlsx");
+            //MessageBox.Show("ok");
+            SaveExcelFromGrid(getList, file);
         }
     }
 }
