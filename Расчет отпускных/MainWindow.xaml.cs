@@ -5,6 +5,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using OfficeOpenXml;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Forms;
+
 
 namespace Расчет_отпускных
 {
@@ -13,12 +18,15 @@ namespace Расчет_отпускных
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public bool FixFlag;
+        
         public MainWindow()
         {
             FixFlag = false;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             InitializeComponent();
+            
             var file = new FileInfo(@"D:\C#\Расчет отпускных\bin\Debug\person.xlsx");
             var data = GetData();
             SaveExcel(data, file);
@@ -96,16 +104,6 @@ namespace Расчет_отпускных
             }
             return output;
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void MainGrid_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
         {
@@ -125,6 +123,22 @@ namespace Расчет_отпускных
             var file = new FileInfo(@"D:\C#\Расчет отпускных\bin\Debug\person.xlsx");
             //MessageBox.Show("ok");
             SaveExcelFromGrid(getList, file);
+        }
+
+        private void ButtonPrint_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
+            if (print.ShowDialog()==true)
+            {
+                print.PrintVisual(MainGrid, "печать");           
+            }
+        }
+
+        private void ButtonAddEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            WindowAddEmployee addEmployee = new WindowAddEmployee();
+            addEmployee.ShowDialog();
+            //добавить добавление в лист сотрудников
         }
     }
 }
