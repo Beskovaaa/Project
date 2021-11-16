@@ -7,21 +7,29 @@
         xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012" x:Class="Расчет_отпускных.MainWindow"
         mc:Ignorable="d"
         Title="Расчет отпускных DQS" Height="600" Width="1000" Background="#FFDEDEFF" FontWeight="Bold" Cursor="Pen" >
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition />
-            <RowDefinition Height="125" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
 
+        <TextBox Grid.Row="0" Text="Da"/>
 
-        <Image Source="Image\DQS-Logo.jpg" Grid.Row="1" Grid.Column="0"/>
-        <Button Content="загрузка таблицы" Grid.Column="1" HorizontalAlignment="Left" Margin="47,33,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Click="Button_Click"/>
-        <Button Content="выгрузка в Excel" Grid.Column="1" HorizontalAlignment="Left" Margin="47,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Click="Button_Click_1"/>
-        <DataGrid Grid.Column="1" HorizontalAlignment="Left" Height="424" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" x:Name="MainGrid" CellEditEnding="MainGrid_CellEditEnding"/>
-
+        <DataGrid Grid.Row="1" x:Name="mainGrid" AutoGenerateColumns="False" CellEditEnding="MainGrid_OnCellEditEnding" CanUserSortColumns="False" CanUserReorderColumns="False" ColumnWidth="88" ColumnHeaderHeight="44">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Month, UpdateSourceTrigger=PropertyChanged}" Header="Месяц"/>
+                <DataGridTextColumn Binding="{Binding DayInMonth, UpdateSourceTrigger=PropertyChanged}" Header="Дней в&#10;месяце"/>
+                <DataGridTextColumn Binding="{Binding SickDays, UpdateSourceTrigger=PropertyChanged}" Header="Кол-во дней&#10;больничного"/>
+                <DataGridTextColumn Binding="{Binding VacationDays, UpdateSourceTrigger=PropertyChanged}" Header="Кол-во дней&#10;отпуска"/>
+                <DataGridTextColumn Binding="{Binding TotalDays, UpdateSourceTrigger=PropertyChanged}" Header="Итого дней"/>
+                <DataGridTextColumn Binding="{Binding Wages, UpdateSourceTrigger=PropertyChanged}" Header="ЗП"/>
+                <DataGridTextColumn Binding="{Binding PaymentSick, UpdateSourceTrigger=PropertyChanged}" Header="Выплаты за&#10;больничный"/>
+                <DataGridTextColumn Binding="{Binding PaymentVacation, UpdateSourceTrigger=PropertyChanged}" Header="Выплаты за&#10;отпуск"/>
+                <DataGridTextColumn Binding="{Binding TotalWages, UpdateSourceTrigger=PropertyChanged}" Header="Итого ЗП&#10;без"/>
+                <DataGridTextColumn Binding="{Binding DaysCalculate, UpdateSourceTrigger=PropertyChanged}" Header="Дни для&#10;расчета"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="2" Height="20" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Content="SaveExcel" x:Name="saveButton" Click="saveButton_Click"/>
     </Grid>
 </Window>

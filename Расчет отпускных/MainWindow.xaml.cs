@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using OfficeOpenXml;
+using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace Расчет_отпускных
 {
@@ -13,118 +20,259 @@ namespace Расчет_отпускных
     /// </summary>
     public partial class MainWindow : Window
     {
-        public bool FixFlag;
+        public bool FixFlag = false;
+        public List<TableLayout> GlobalList = new List<TableLayout>();
         public MainWindow()
         {
-            FixFlag = false;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             InitializeComponent();
-            var file = new FileInfo(@"D:\C#\Расчет отпускных\bin\Debug\person.xlsx");
-            var data = GetData();
-            SaveExcel(data, file);
-            MainGrid.ItemsSource = GetExcel(file);
-            //GetDataFromGrid();
-            //SaveExcelFromGrid(GetDataFromGrid(), file);
-            //foreach (Model item in MainGrid.Items)
-            //{
-            //    MessageBox.Show(item.month);
-            //}
+            var file = new FileInfo("person.xlsx");
+            GlobalList = GetTable(file);
+            mainGrid.ItemsSource = GlobalList;
+            mainGrid.CanUserAddRows = false;
         }
 
-        private List<Model> GetExcel(FileInfo file)
+        private List<TableLayout> GetTable(FileInfo file) //
         {
-            List<Model> getList = new List<Model>();
+            List<TableLayout> getTable = new List<TableLayout>();
+            if (file.Exists) getTable = OpenTable(file); //
+            else getTable = GenerateAndOpenTable(file); //
+            return getTable;
+        }
+
+        private List<TableLayout> GenerateAndOpenTable(FileInfo file) //
+        {
+            SaveNewTable(file, GenerateTable()); //
+            return OpenTable(file); //
+        }
+
+        private List<TableLayout> OpenTable(FileInfo file) //
+        {
+            List<TableLayout> getList = new List<TableLayout>();
             using (var package = new ExcelPackage(file))
             {
                 var ws = package.Workbook.Worksheets[0];
-                for (int i = 2; i <= 6; i++)
+                for (int i = 2; i <= 13; i++)
                 {
-                    getList.Add(new Model()
+                    //double dayInMounth = double.Parse(ws.Cells[i, 2].Value.ToString());
+                    //double sickDays = double.Parse(ws.Cells[i, 3].Value.ToString());
+                    //double vacationDays = double.Parse(ws.Cells[i, 4].Value.ToString());
+                    //double wages = double.Parse(ws.Cells[i, 6].Value.ToString());
+                    //double paymentSick = double.Parse(ws.Cells[i, 7].Value.ToString());
+                    //double paymentVacation = double.Parse(ws.Cells[i, 8].Value.ToString());
+                    //double totalDays = dayInMounth - sickDays - vacationDays;
+                    //double totalWages = wages - paymentSick - paymentVacation;
+                    //double daysCalculate = totalDays / dayInMounth * 29.3;
+                    getList.Add(new TableLayout()
                     {
-                        month = ws.Cells[i, 1].Value.ToString(),
-                        number1 = int.Parse(ws.Cells[i, 2].Value.ToString()),
-                        number2 = int.Parse(ws.Cells[i, 3].Value.ToString()),
-                        sum = int.Parse(ws.Cells[i, 4].Value.ToString()),
-                        add_inform = ws.Cells[i, 5].Value.ToString()
+                        Month = ws.Cells[i, 1].Value.ToString(),
+                        DayInMonth = ws.Cells[i, 2].Value.ToString(),
+                        SickDays = ws.Cells[i, 3].Value.ToString(),
+                        VacationDays = ws.Cells[i, 4].Value.ToString(),
+                        TotalDays = ws.Cells[i, 5].Value.ToString(),
+                        Wages = ws.Cells[i, 6].Value.ToString(),
+                        PaymentSick = ws.Cells[i, 7].Value.ToString(),
+                        PaymentVacation = ws.Cells[i, 8].Value.ToString(),
+                        TotalWages = ws.Cells[i, 9].Value.ToString(),
+                        DaysCalculate = ws.Cells[i, 10].Value.ToString()
                     });
                 }
             }
             return getList;
         }
-        private void SaveExcel(List<Model> data, FileInfo file)
+
+        private void SaveNewTable(FileInfo file, List<TableLayout> data) //
         {
             using (var package = new ExcelPackage(file))
             {
-                if (!file.Exists)
+                //package.Workbook.CalcMode = ExcelCalcMode.Manual;
+                var ws = package.Workbook.Worksheets.Add("Main");
+                //var range = ws.Cells["A2"].LoadFromCollection(data, false);
+                ws.Cells["A2"].LoadFromCollection(data, false);
+                //range.AutoFitColumns();
+                List<ColumnNames> columnNames = new List<ColumnNames>
                 {
-                    var ws = package.Workbook.Worksheets.Add("Main");
-                    var range = ws.Cells["A1"].LoadFromCollection(data, true);
-                    range.AutoFitColumns();
-                    package.Save();
-                }
+                    new ColumnNames() {}
+                };
+                //range = ws.Cells["A1"].LoadFromCollection(columnNames, false);
+                ws.Cells["A1"].LoadFromCollection(columnNames, false);
+                //range.AutoFitColumns();
+                package.Save();
             }
         }
-        private void SaveExcelFromGrid(List<Model> data, FileInfo file)
+
+        private void SaveTable(FileInfo file, List<TableLayout> data)
         {
             using (var package = new ExcelPackage(file))
             {
-                //if (file.Exists) file.Delete(); 
                 var ws = package.Workbook.Worksheets[0];
-                var range = ws.Cells["A1"].LoadFromCollection(data, true);
+                var range = ws.Cells["A2"].LoadFromCollection(data, false);
                 range.AutoFitColumns();
                 package.Save();
             }
         }
-        static List<Model> GetData()
+
+        private List<TableLayout> GenerateTable() //
         {
-            List<Model> output = new List<Model>()
+            List<TableLayout> outList = new List<TableLayout>()
             {
-                new Model() { month = "январь", number1 = 1, number2 = 3, sum = 4, add_inform = "=B1+C1" },
-                new Model() { month = "февраль", number1 = 2, number2 = 2, sum = 4, add_inform = "=B2+C2" },
-                new Model() { month = "март", number1 = 5, number2 = 5, sum = 10, add_inform = "=B3+C3" },
-                new Model() { month = "апрель", number1 = 6, number2 = 4, sum = 10, add_inform = "=B4+C4" },
-                new Model() { month = "май", number1 = 8, number2 = 9, sum = 17, add_inform = "=B5+C5" }
+                new TableLayout { Month = "декабрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "январь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "февраль", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "март", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "апрель", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "май", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "июнь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "июль", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "август", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "сентябрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "октябрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "ноябрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
             };
-            return output;
+            return outList;
         }
-        public List<Model> GetDataFromGrid()
+
+        private void SaveExcel(List<TableLayout> data, FileInfo file)
         {
-            List<Model> output = new List<Model>();
-            foreach (var mainGridItem in MainGrid.Items)
+            using (var package = new ExcelPackage(file))
             {
-                output.Add((Model)mainGridItem);
+                var ws = package.Workbook.Worksheets[0];
+                var range = ws.Cells["A2"].LoadFromCollection(data, false);
+                range.AutoFitColumns();
+                package.Save();
             }
-            return output;
         }
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private List<TableLayout> GetDataFromGrid()
         {
-            
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MainGrid_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
-        {
-            List<Model> getList = new List<Model>();
-            for (int i = 0; i < 5; i++)
+            List<TableLayout> getList = new List<TableLayout>();
+            for (int i = 0; i < 12; i++)
             {
-                Model mod = (Model)MainGrid.Items[i];
-                getList.Add(new Model()
+                TableLayout tl = (TableLayout)mainGrid.Items[i];
+                getList.Add(new TableLayout()
                 {
-                    month = mod.month,
-                    number1 = mod.number1,
-                    number2 = mod.number2,
-                    sum = mod.sum,
-                    add_inform = mod.add_inform
+                    Month = tl.Month,
+                    DayInMonth = tl.DayInMonth,
+                    SickDays = tl.SickDays,
+                    VacationDays = tl.VacationDays,
+                    TotalDays = tl.TotalDays,
+                    Wages = tl.Wages,
+                    PaymentSick = tl.PaymentSick,
+                    PaymentVacation = tl.PaymentVacation,
+                    TotalWages = tl.TotalWages,
+                    DaysCalculate = tl.DaysCalculate
                 });
             }
-            var file = new FileInfo(@"D:\C#\Расчет отпускных\bin\Debug\person.xlsx");
-            //MessageBox.Show("ok");
-            SaveExcelFromGrid(getList, file);
+            return getList;
+        }
+
+        private void MainGrid_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (!FixFlag)
+            {
+                var TableLayoutObj = e.Row.Item as TableLayout;
+                int numRow = e.Row.GetIndex();
+                UpdateAfterEdit(TableLayoutObj, numRow);
+                mainGrid.Items.Refresh();
+                //MessageBox.Show($"{TableLayoutObj.Month} {TableLayoutObj.DayInMonth} {numRow}");
+            }
+        }
+
+        private void UpdateAfterEdit(TableLayout tableLayoutObj, int numRow)
+        {
+            //сделать с double!!!---------------!!!!!!!!!!!!!!!!!!!!!!!!!!
+            Regex regex = new Regex(@"\d");
+            MatchCollection matches1 = regex.Matches(tableLayoutObj.DayInMonth);
+            MatchCollection matches2 = regex.Matches(tableLayoutObj.SickDays);
+            MatchCollection matches3 = regex.Matches(tableLayoutObj.VacationDays);
+            MatchCollection matches4 = regex.Matches(tableLayoutObj.Wages);
+            MatchCollection matches5 = regex.Matches(tableLayoutObj.PaymentSick);
+            MatchCollection matches6 = regex.Matches(tableLayoutObj.PaymentVacation);
+            bool CalcDay = false;
+            bool CalcWages = false;
+            if (matches1.Count == tableLayoutObj.DayInMonth.Length) CalcDay = true;
+            else
+            {
+                tableLayoutObj.DayInMonth = "НЕ ЧИСЛО!";
+                CalcDay = false;
+            }
+            if (matches2.Count == tableLayoutObj.SickDays.Length) CalcDay = true;
+            else
+            {
+                tableLayoutObj.SickDays = "НЕ ЧИСЛО!";
+                CalcDay = false;
+            }
+            if (matches3.Count == tableLayoutObj.VacationDays.Length) CalcDay = true;
+            else
+            {
+                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
+                CalcDay = false;
+            }
+            if (CalcDay && tableLayoutObj.DayInMonth.Length != 0 && tableLayoutObj.SickDays.Length != 0 && tableLayoutObj.VacationDays.Length != 0)
+            {
+                tableLayoutObj.TotalDays =
+                    (double.Parse(tableLayoutObj.DayInMonth) - double.Parse(tableLayoutObj.SickDays) -
+                     double.Parse(tableLayoutObj.VacationDays)).ToString();
+            }
+            else
+            {
+                tableLayoutObj.TotalDays = "НЕ ЧИСЛО!";
+            }
+
+            if (matches4.Count == tableLayoutObj.Wages.Length) CalcWages = true;
+            else
+            {
+                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
+                CalcWages = false;
+            }
+            if (matches5.Count == tableLayoutObj.PaymentSick.Length) CalcWages = true;
+            else
+            {
+                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
+                CalcWages = false;
+            }
+            if (matches6.Count == tableLayoutObj.PaymentVacation.Length) CalcWages = true;
+            else
+            {
+                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
+                CalcWages = false;
+            }
+            if (CalcWages && tableLayoutObj.Wages.Length != 0 && tableLayoutObj.PaymentSick.Length != 0 && tableLayoutObj.PaymentVacation.Length != 0)
+            {
+                tableLayoutObj.TotalWages =
+                    (double.Parse(tableLayoutObj.Wages) - double.Parse(tableLayoutObj.PaymentSick) -
+                     double.Parse(tableLayoutObj.PaymentVacation)).ToString();
+            }
+            else
+            {
+                tableLayoutObj.TotalWages = "НЕ ЧИСЛО!";
+            }
+
+            if (CalcDay && tableLayoutObj.DayInMonth.Length != 0 && tableLayoutObj.TotalDays != "НЕ ЧИСЛО!")
+            {
+                tableLayoutObj.DaysCalculate =
+                    string.Format("{0:f8}",(double.Parse(tableLayoutObj.TotalDays) / double.Parse(tableLayoutObj.DayInMonth) *
+                                   29.3));
+            }
+            else
+            {
+                tableLayoutObj.DaysCalculate = "НЕ ЧИСЛО!";
+            }
+
+            GlobalList.RemoveAt(numRow);
+            GlobalList.Insert(numRow, tableLayoutObj);
+            FixFlag = true;
+            mainGrid.CancelEdit();
+            mainGrid.CancelEdit();
+            FixFlag = false;
+            //mainGrid.CommitEdit();
+            //mainGrid.Items.Refresh();
+        }
+
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var file = new FileInfo("person.xlsx");
+            SaveExcel(GlobalList, file);
+            MessageBox.Show("Save OK");
         }
     }
 }
