@@ -317,7 +317,8 @@ namespace Расчет_отпускных
             WindowAddEmployee addEmployee = new WindowAddEmployee();
             ListEmployees.Items.Clear();
             addEmployee.ShowDialog();
-            List<string> NameEmployees = ReadXML(); 
+            List<string> NameEmployees = new List<string>();
+            NameEmployees = ReadXML(); 
             NameEmployees.Add(WindowAddEmployee.TextBox);
             WriteXML(NameEmployees);
             for (int i=0;i<NameEmployees.Count;i++)
