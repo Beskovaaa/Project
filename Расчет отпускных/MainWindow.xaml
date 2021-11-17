@@ -33,11 +33,14 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="1" Grid.Column="1" Width="148" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" Content="SaveExcel" x:Name="saveButton" Click="saveButton_Click"/>
-        <Image Source="Image\DQS-Logo.jpg" Grid.Row="1" Grid.Column="0"/>
+        <!--<Image Source="Image\DQS-Logo.jpg" Grid.Row="1" Grid.Column="0"/>-->
         <!--<DataGrid Grid.Column="1" HorizontalAlignment="Left" Height="424" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" x:Name="MainGrid" CellEditEnding="MainGrid_CellEditEnding"/>-->
         <ListBox Grid.Row="0" Grid.Column="0" x:Name="ListEmployees" HorizontalAlignment="Left" Height="365" Margin="10,10,0,0" VerticalAlignment="Top" Width="180"/>
         <Button Grid.Row="1" Grid.Column="1"  x:Name="ButtonPrint" Content="Печать" HorizontalAlignment="Left" Margin="634,10,0,0" VerticalAlignment="Top" Width="148" Click="ButtonPrint_Click"/>
         <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonAddEmployee" Content="Добавить сотрудника" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="180" Click="ButtonAddEmployee_Click"/>
         <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonDeleteEmployee" Content="Удалить сотрудника" HorizontalAlignment="Left" Margin="10,414,0,0" VerticalAlignment="Top" Width="180"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb1" Height="22" Text="Stas1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Background="AliceBlue"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb2" Height="22" Text="Stas2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0" Background="AliceBlue"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb3" Height="22" Text="Stas3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="220,10,0,0" Background="AliceBlue"/>
     </Grid>
 </Window>

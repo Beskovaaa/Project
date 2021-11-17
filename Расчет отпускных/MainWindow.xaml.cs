@@ -31,6 +31,7 @@ namespace Расчет_отпускных
             GlobalList = GetTable(file);
             mainGrid.ItemsSource = GlobalList;
             mainGrid.CanUserAddRows = false;
+            UpdateCalcData();
         }
 
         private List<TableLayout> GetTable(FileInfo file) //
@@ -166,6 +167,23 @@ namespace Расчет_отпускных
             return getList;
         }
 
+        private void UpdateCalcData()
+        {
+            double sumDay = 0;
+            double sumWages = 0;
+            double sumCalcDay = 0;
+            foreach (TableLayout item in GlobalList)
+            {
+                if (item.VacationDays != "" && item.VacationDays != "НЕ ЧИСЛО!") sumDay += double.Parse(item.VacationDays);
+                if (item.TotalWages != "" && item.TotalWages != "НЕ ЧИСЛО!") sumWages += double.Parse(item.TotalWages);
+                if (item.DaysCalculate != "" && item.DaysCalculate != "НЕ ЧИСЛО!") sumCalcDay += double.Parse(item.DaysCalculate);
+            }
+
+            tb1.Text = string.Format("{0:f0}", sumDay);
+            tb2.Text = string.Format("{0:f2}", sumWages / sumCalcDay);
+            tb3.Text = string.Format("{0:f2}", sumWages / sumCalcDay * sumDay);
+        }
+
         private void MainGrid_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (!FixFlag)
@@ -174,6 +192,7 @@ namespace Расчет_отпускных
                 int numRow = e.Row.GetIndex();
                 UpdateAfterEdit(TableLayoutObj, numRow);
                 mainGrid.Items.Refresh();
+                UpdateCalcData();
                 //MessageBox.Show($"{TableLayoutObj.Month} {TableLayoutObj.DayInMonth} {numRow}");
             }
         }
