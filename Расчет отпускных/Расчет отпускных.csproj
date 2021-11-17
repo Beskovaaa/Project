@@ -77,6 +77,8 @@
     <Compile Include="WindowAddEmployee.xaml.cs">
       <DependentUpon>WindowAddEmployee.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ColumnNames.cs" />
+    <Compile Include="TableLayout.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
