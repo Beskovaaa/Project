@@ -281,7 +281,7 @@ namespace Расчет_отпускных
             System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
             if (print.ShowDialog()==true)
             {
-                print.PrintVisual(MainGrid, "печать");           
+                print.PrintVisual(mainGrid, "печать");           
             }
         }
 
