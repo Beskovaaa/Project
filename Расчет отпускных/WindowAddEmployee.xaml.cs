@@ -25,17 +25,19 @@ namespace Расчет_отпускных
             InitializeComponent();
         }
 
+        public static string TextBox { get; internal set; }
+
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
-            string writePath = @"Employees.txt";
-            using (StreamWriter sw = new StreamWriter(writePath))
+            if (TextBoxData.Text != "")
             {
-                if (TextBoxData.Text != "")
-                    sw.WriteLine(TextBoxData.Text);
-                else
-                    MessageBox.Show("Введите данные сотрудника!");
+                TextBox = TextBoxData.Text;
+                Close();
             }
-            TextBoxData.Text = "";
+            else
+                MessageBox.Show("Введите данные сотрудника!");
+
+            
         }
 
     }

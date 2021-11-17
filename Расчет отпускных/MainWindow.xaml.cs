@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Xml.Linq;
 using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
+
 
 
 namespace Расчет_отпускных
@@ -300,15 +303,51 @@ namespace Расчет_отпускных
             System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
             if (print.ShowDialog()==true)
             {
-                print.PrintVisual(mainGrid, "печать");           
+                  
+                
             }
         }
+        private void WriteXML(List<string> itemsList)
+            => (new XDocument(new XElement("itemsList", itemsList.ConvertAll(item => new XElement("item", item))))).Save(@"Employees.xml");
+        private List<string> ReadXML()
+          => (XDocument.Load(@"Employees.xml")).Element("itemsList")?.Elements("item").Select(item => item.Value).ToList();
 
         private void ButtonAddEmployee_Click(object sender, RoutedEventArgs e)
         {
             WindowAddEmployee addEmployee = new WindowAddEmployee();
+            ListEmployees.Items.Clear();
             addEmployee.ShowDialog();
-            //добавить добавление в лист сотрудников
+            List<string> NameEmployees = ReadXML(); 
+            NameEmployees.Add(WindowAddEmployee.TextBox);
+            WriteXML(NameEmployees);
+            for (int i=0;i<NameEmployees.Count;i++)
+            {
+                ListEmployees.Items.Add(NameEmployees[i]);
+            }            
+            //+++добавить листочек в книгу
         }
+        
+        private void ButtonDeleteEmployee_Click(object sender, RoutedEventArgs e)
+        {
+            if( ListEmployees.SelectedIndex!=-1)
+            {
+                List<string> NameEmployees = ReadXML();
+                NameEmployees.RemoveAt(ListEmployees.SelectedIndex);
+                //++++удаление странички сотруднника
+                WriteXML(NameEmployees);
+                ListEmployees.Items.Clear();
+                for (int i = 0; i < NameEmployees.Count; i++)
+                {
+                    ListEmployees.Items.Add(NameEmployees[i]);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите сотрудника в списке!");
+            }
+        }
+        
+
+
     }
 }
