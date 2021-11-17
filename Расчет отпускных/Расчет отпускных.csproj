@@ -146,5 +146,23 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DQS-Logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DQS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DQS-Logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DQS.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

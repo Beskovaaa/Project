@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Расчет_отпускных"
         mc:Ignorable="d"
-        Title="Добавление сотрудника" Height="225" Width="400">
+        Title="Добавление сотрудника" Height="225" Width="400" Icon="Icon.ico" WindowStartupLocation="CenterScreen">
     <Grid>
         <TextBox x:Name="TextBoxData" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="50,125,50,0"/>
-        <Button x:Name="ButtonAdd" Content="Добавить" HorizontalAlignment="Left" Margin="142,164,0,0" VerticalAlignment="Top" Width="125" RenderTransformOrigin="0.333,1.3" Click="ButtonAdd_Click"/>
-        <Label Content="Введите данные сотрудника" HorizontalAlignment="Left" Margin="50,84,0,0" VerticalAlignment="Top" Width="292"/>
-        <Image  Source="Image\DQS-Logo.jpg" HorizontalAlignment="Left" Height="69" Margin="142,10,0,0" VerticalAlignment="Top" Width="162"/>
+        <Button x:Name="ButtonAdd" Content="Добавить" HorizontalAlignment="Left" Margin="142,164,0,0" VerticalAlignment="Top" Width="125" RenderTransformOrigin="0.333,1.3" Click="ButtonAdd_Click" Background="#FF506FFB"/>
+        <Label Content="Введите данные сотрудника" HorizontalAlignment="Left" Margin="50,94,0,0" VerticalAlignment="Top" Width="292"/>
+        <Image  Source="Resources/DQS-Logo.jpg" HorizontalAlignment="Left" Height="86" Margin="127,10,0,0" VerticalAlignment="Top" Width="140"/>
 
     </Grid>
 </Window>
