@@ -44,7 +44,21 @@ namespace Расчет_отпускных
 
             //UpdateCalcData();
             AddEmployees();
-            
+
+            if (!FileExcel.Exists)
+            {
+                using (var package = new ExcelPackage(FileExcel))
+                {
+                    //package.Workbook.CalcMode = ExcelCalcMode.Manual;
+                    var ws = package.Workbook.Worksheets.Add("Hidden_9753194576945164766");
+                    List<ColumnNames> columnNames = new List<ColumnNames>
+                    {
+                        new ColumnNames() {}
+                    };
+                    ws.Cells["A1"].LoadFromCollection(columnNames, false);
+                    package.Save();
+                }
+            }
         }
 
         
@@ -105,6 +119,7 @@ namespace Расчет_отпускных
             {
                 //package.Workbook.CalcMode = ExcelCalcMode.Manual;
                 var ws = package.Workbook.Worksheets.Add(nameEmpl);
+                
                 //var range = ws.Cells["A2"].LoadFromCollection(data, false);
                 ws.Cells["A2"].LoadFromCollection(data, false);
                 //range.AutoFitColumns();
@@ -309,12 +324,11 @@ namespace Расчет_отпускных
 
         private void ButtonPrint_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
-            if (print.ShowDialog()==true)
-            {
-                  
-                
-            }
+            //System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
+            //if (print.ShowDialog()==true)
+            //{
+
+            //}
         }
         private void WriteXML(List<string> itemsList)
             => (new XDocument(new XElement("itemsList", itemsList.ConvertAll(item => new XElement("item", item))))).Save(@"Employees.xml");
@@ -341,8 +355,7 @@ namespace Расчет_отпускных
             var file = new FileInfo(@"Employees.xml");
             if (!file.Exists) WriteXML(NameEmployees);
             NameEmployees = ReadXML();
-
-            if (!NameEmployees.Contains(WindowAddEmployee.TextBox) && WindowAddEmployee.TextBox != ""&& ListEmployees.SelectedIndex == -1)
+            if (!NameEmployees.Contains(WindowAddEmployee.TextBox) && WindowAddEmployee.TextBox != "" && WindowAddEmployee.TextBox != null)
             {
                 NameEmployees.Add(WindowAddEmployee.TextBox);
                 WriteXML(NameEmployees);
@@ -351,7 +364,7 @@ namespace Расчет_отпускных
                 {
                     ListEmployees.Items.Add(NameEmployees[i]);
                 }
-
+                //+++добавить листочек в книгу
                 SaveNewTable(FileExcel, GenerateTable(), NameEmployees[NameEmployees.Count - 1]);
             }
 
@@ -365,6 +378,9 @@ namespace Расчет_отпускных
                 NameEmployees.RemoveAt(ListEmployees.SelectedIndex);
                 //++++удаление странички сотруднника
                 LastSelected = "";
+                GlobalList.Clear();
+                mainGrid.Items.Refresh();
+                UpdateCalcData();
                 string nameEmpl = ListEmployees.SelectedItem.ToString();
                 DeleteList(FileExcel, nameEmpl);
                 WriteXML(NameEmployees);
