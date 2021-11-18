@@ -37,7 +37,7 @@ namespace Расчет_отпускных
             InitializeComponent();
             //var file = new FileInfo("person.xlsx");
 
-            GlobalList = GenerateTable();
+            //GlobalList = GenerateTable();
             mainGrid.ItemsSource = GlobalList;
             UpdateCalcData();
             //mainGrid.CanUserAddRows = false;
@@ -307,14 +307,6 @@ namespace Расчет_отпускных
             //mainGrid.Items.Refresh();
         }
 
-        private void saveButton_Click(object sender, RoutedEventArgs e)
-        {
-            ///Убрать!
-            //var file = new FileInfo("person.xlsx");
-            //SaveExcel(GlobalList, file);
-            //MessageBox.Show("Save OK");
-        }
-
         private void ButtonPrint_Click(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
@@ -359,7 +351,7 @@ namespace Расчет_отпускных
                     {
                         ListEmployees.Items.Add(NameEmployees[i]);
                     }
-                //+++добавить листочек в книгу
+                
                 SaveNewTable(FileExcel, GenerateTable(), NameEmployees[NameEmployees.Count - 1]);
             }
 
