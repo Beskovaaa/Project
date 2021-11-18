@@ -340,18 +340,18 @@ namespace Расчет_отпускных
             List<string> NameEmployees = new List<string>();
             var file = new FileInfo(@"Employees.xml");
             if (!file.Exists) WriteXML(NameEmployees);
-            NameEmployees = ReadXML(); 
+            NameEmployees = ReadXML();
 
-                if (!NameEmployees.Contains(WindowAddEmployee.TextBox)&& WindowAddEmployee.TextBox!="")
+            if (!NameEmployees.Contains(WindowAddEmployee.TextBox) && WindowAddEmployee.TextBox != ""&& ListEmployees.SelectedIndex == -1)
+            {
+                NameEmployees.Add(WindowAddEmployee.TextBox);
+                WriteXML(NameEmployees);
+                ListEmployees.Items.Clear();
+                for (int i = 0; i < NameEmployees.Count; i++)
                 {
-                    NameEmployees.Add(WindowAddEmployee.TextBox);
-                    WriteXML(NameEmployees);
-                    ListEmployees.Items.Clear();
-                    for (int i = 0; i < NameEmployees.Count; i++)
-                    {
-                        ListEmployees.Items.Add(NameEmployees[i]);
-                    }
-                
+                    ListEmployees.Items.Add(NameEmployees[i]);
+                }
+
                 SaveNewTable(FileExcel, GenerateTable(), NameEmployees[NameEmployees.Count - 1]);
             }
 
