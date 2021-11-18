@@ -324,6 +324,7 @@ namespace Расчет_отпускных
 
         private void ButtonPrint_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("Печать в разработке, скоро появится...", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Information);
             //System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
             //if (print.ShowDialog()==true)
             //{
