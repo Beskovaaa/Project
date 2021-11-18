@@ -374,25 +374,28 @@ namespace Расчет_отпускных
         {
             if( ListEmployees.SelectedIndex!=-1)
             {
-                List<string> NameEmployees = ReadXML();
-                NameEmployees.RemoveAt(ListEmployees.SelectedIndex);
-                //++++удаление странички сотруднника
-                LastSelected = "";
-                GlobalList.Clear();
-                mainGrid.Items.Refresh();
-                UpdateCalcData();
-                string nameEmpl = ListEmployees.SelectedItem.ToString();
-                DeleteList(FileExcel, nameEmpl);
-                WriteXML(NameEmployees);
-                ListEmployees.Items.Clear();
-                for (int i = 0; i < NameEmployees.Count; i++)
+                if (MessageBox.Show("Вы уверены что хотите удалить сотрудника?","Удаление сотрудника",MessageBoxButton.YesNo,MessageBoxImage.Warning ) == MessageBoxResult.Yes)
                 {
-                    ListEmployees.Items.Add(NameEmployees[i]);
+                    List<string> NameEmployees = ReadXML();
+                    NameEmployees.RemoveAt(ListEmployees.SelectedIndex);
+                    //++++удаление странички сотруднника
+                    LastSelected = "";
+                    GlobalList.Clear();
+                    mainGrid.Items.Refresh();
+                    UpdateCalcData();
+                    string nameEmpl = ListEmployees.SelectedItem.ToString();
+                    DeleteList(FileExcel, nameEmpl);
+                    WriteXML(NameEmployees);
+                    ListEmployees.Items.Clear();
+                    for (int i = 0; i < NameEmployees.Count; i++)
+                    {
+                        ListEmployees.Items.Add(NameEmployees[i]);
+                    }
                 }
             }
             else
             {
-                MessageBox.Show("Выберите сотрудника в списке!");
+                MessageBox.Show("Выберите сотрудника в списке!","Внимание",MessageBoxButton.OKCancel,MessageBoxImage.Error);
             }
         }
 
