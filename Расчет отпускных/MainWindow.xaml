@@ -18,7 +18,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="mainGrid" AutoGenerateColumns="False" CellEditEnding="MainGrid_OnCellEditEnding" CanUserSortColumns="False" CanUserReorderColumns="False" ColumnWidth="88" ColumnHeaderHeight="44">
+        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="mainGrid" AutoGenerateColumns="False" CellEditEnding="MainGrid_OnCellEditEnding" CanUserSortColumns="False" CanUserReorderColumns="False" ColumnWidth="88" ColumnHeaderHeight="44" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Month, UpdateSourceTrigger=PropertyChanged}" Header="Месяц"/>
                 <DataGridTextColumn Binding="{Binding DayInMonth, UpdateSourceTrigger=PropertyChanged}" Header="Дней в&#10;месяце"/>
@@ -34,7 +34,7 @@
         </DataGrid>
         <Button Grid.Row="1" Grid.Column="1" Width="148" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" Content="SaveExcel" x:Name="saveButton" Click="saveButton_Click" Background="#FF506FFB"/>
        
-        <ListBox Grid.Row="0" Grid.Column="0" x:Name="ListEmployees" HorizontalAlignment="Left" Height="375" Margin="10,0,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox Grid.Row="0" Grid.Column="0" x:Name="ListEmployees" HorizontalAlignment="Left" Height="375" Margin="10,0,0,0" VerticalAlignment="Top" Width="180" PreviewMouseUp="ListEmployees_PreviewMouseUp" />
         <Button Grid.Row="1" Grid.Column="1"  x:Name="ButtonPrint" Content="Печать" HorizontalAlignment="Left" Margin="634,10,0,0" VerticalAlignment="Top" Width="148" Click="ButtonPrint_Click" Background="#FF506FFB"/>
         <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonAddEmployee" Content="Добавить сотрудника" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="180" Click="ButtonAddEmployee_Click" Background="#FF506FFB"/>
         <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonDeleteEmployee" Content="Удалить сотрудника" HorizontalAlignment="Left" Margin="10,414,0,0" VerticalAlignment="Top" Width="180" Click="ButtonDeleteEmployee_Click" Background="#FF506FFB"/>
