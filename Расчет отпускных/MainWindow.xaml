@@ -18,7 +18,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="mainGrid" AutoGenerateColumns="False" CellEditEnding="MainGrid_OnCellEditEnding" CanUserSortColumns="False" CanUserReorderColumns="False" ColumnWidth="88" ColumnHeaderHeight="44">
+        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="mainGrid" AutoGenerateColumns="False" CellEditEnding="MainGrid_OnCellEditEnding" CanUserSortColumns="False" CanUserReorderColumns="False" ColumnWidth="88" ColumnHeaderHeight="44" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Month, UpdateSourceTrigger=PropertyChanged}" Header="Месяц"/>
                 <DataGridTextColumn Binding="{Binding DayInMonth, UpdateSourceTrigger=PropertyChanged}" Header="Дней в&#10;месяце"/>

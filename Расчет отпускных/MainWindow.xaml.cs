@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,50 +26,51 @@ namespace Расчет_отпускных
     /// </summary>
     public partial class MainWindow : Window
     {
+        private FileInfo FileExcel = new FileInfo(@"person.xlsx");
+        private FileInfo FileXML= new FileInfo(@"Employees.xml");
+        private string LastSelected = "";
         public bool FixFlag = false;
         public List<TableLayout> GlobalList = new List<TableLayout>();
         public MainWindow()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             InitializeComponent();
-            var file = new FileInfo("person.xlsx");
-            GlobalList = GetTable(file);
+            //var file = new FileInfo("person.xlsx");
+
+            GlobalList = GenerateTable();
             mainGrid.ItemsSource = GlobalList;
-            mainGrid.CanUserAddRows = false;
             UpdateCalcData();
+            //mainGrid.CanUserAddRows = false;
+
+            //UpdateCalcData();
+            AddEmployees();
+            
         }
 
-        private List<TableLayout> GetTable(FileInfo file) //
+        
+
+        private List<TableLayout> GetTable(FileInfo file, string nameEmpl) //
         {
             List<TableLayout> getTable = new List<TableLayout>();
-            if (file.Exists) getTable = OpenTable(file); //
-            else getTable = GenerateAndOpenTable(file); //
+            if (file.Exists) getTable = OpenTable(file, nameEmpl); //
+            else getTable = GenerateAndOpenTable(file, nameEmpl); //
             return getTable;
         }
 
-        private List<TableLayout> GenerateAndOpenTable(FileInfo file) //
+        private List<TableLayout> GenerateAndOpenTable(FileInfo file, string nameEmpl) //
         {
-            SaveNewTable(file, GenerateTable()); //
-            return OpenTable(file); //
+            SaveNewTable(file, GenerateTable(), nameEmpl); //
+            return OpenTable(file, nameEmpl); //
         }
 
-        private List<TableLayout> OpenTable(FileInfo file) //
+        private List<TableLayout> OpenTable(FileInfo file, string nameEmpl) //
         {
             List<TableLayout> getList = new List<TableLayout>();
             using (var package = new ExcelPackage(file))
             {
-                var ws = package.Workbook.Worksheets[0];
+                var ws = package.Workbook.Worksheets[nameEmpl];
                 for (int i = 2; i <= 13; i++)
                 {
-                    //double dayInMounth = double.Parse(ws.Cells[i, 2].Value.ToString());
-                    //double sickDays = double.Parse(ws.Cells[i, 3].Value.ToString());
-                    //double vacationDays = double.Parse(ws.Cells[i, 4].Value.ToString());
-                    //double wages = double.Parse(ws.Cells[i, 6].Value.ToString());
-                    //double paymentSick = double.Parse(ws.Cells[i, 7].Value.ToString());
-                    //double paymentVacation = double.Parse(ws.Cells[i, 8].Value.ToString());
-                    //double totalDays = dayInMounth - sickDays - vacationDays;
-                    //double totalWages = wages - paymentSick - paymentVacation;
-                    //double daysCalculate = totalDays / dayInMounth * 29.3;
                     getList.Add(new TableLayout()
                     {
                         Month = ws.Cells[i, 1].Value.ToString(),
@@ -86,12 +89,22 @@ namespace Расчет_отпускных
             return getList;
         }
 
-        private void SaveNewTable(FileInfo file, List<TableLayout> data) //
+        private void DeleteList(FileInfo file, string nameEmpl)
+        {
+            using (var package = new ExcelPackage(file))
+            {
+                var ws = package.Workbook.Worksheets.SingleOrDefault(x => x.Name == nameEmpl);
+                package.Workbook.Worksheets.Delete(ws);
+                package.Save();
+            }
+        }
+
+        private void SaveNewTable(FileInfo file, List<TableLayout> data, string nameEmpl) //
         {
             using (var package = new ExcelPackage(file))
             {
                 //package.Workbook.CalcMode = ExcelCalcMode.Manual;
-                var ws = package.Workbook.Worksheets.Add("Main");
+                var ws = package.Workbook.Worksheets.Add(nameEmpl);
                 //var range = ws.Cells["A2"].LoadFromCollection(data, false);
                 ws.Cells["A2"].LoadFromCollection(data, false);
                 //range.AutoFitColumns();
@@ -119,29 +132,32 @@ namespace Расчет_отпускных
 
         private List<TableLayout> GenerateTable() //
         {
+            var date = DateTime.Today.Year;
+            if (date % 4 == 0) date = 29;
+            else date = 28;
             List<TableLayout> outList = new List<TableLayout>()
             {
-                new TableLayout { Month = "декабрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "январь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "февраль", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "март", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "апрель", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "май", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "июнь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "июль", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "август", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "сентябрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "октябрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "ноябрь", DayInMonth = "", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
+                new TableLayout { Month = "декабрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "январь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "февраль", DayInMonth = $"{date}", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "март", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "апрель", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "май", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "июнь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "июль", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "август", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "сентябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "октябрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "ноябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
             };
             return outList;
         }
 
-        private void SaveExcel(List<TableLayout> data, FileInfo file)
+        private void SaveExcel(List<TableLayout> data, FileInfo file, string nameEmpl)
         {
             using (var package = new ExcelPackage(file))
             {
-                var ws = package.Workbook.Worksheets[0];
+                var ws = package.Workbook.Worksheets[nameEmpl];
                 var range = ws.Cells["A2"].LoadFromCollection(data, false);
                 range.AutoFitColumns();
                 package.Save();
@@ -293,9 +309,10 @@ namespace Расчет_отпускных
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            var file = new FileInfo("person.xlsx");
-            SaveExcel(GlobalList, file);
-            MessageBox.Show("Save OK");
+            ///Убрать!
+            //var file = new FileInfo("person.xlsx");
+            //SaveExcel(GlobalList, file);
+            //MessageBox.Show("Save OK");
         }
 
         private void ButtonPrint_Click(object sender, RoutedEventArgs e)
@@ -312,24 +329,39 @@ namespace Расчет_отпускных
         private List<string> ReadXML()
           => (XDocument.Load(@"Employees.xml")).Element("itemsList")?.Elements("item").Select(item => item.Value).ToList();
 
+        private void AddEmployees() //добавление на форму при запуске
+        {
+            List<string> NameEmployees = new List<string>();
+            var file = new FileInfo(@"Employees.xml");
+            if (!file.Exists) WriteXML(NameEmployees);
+            NameEmployees = ReadXML();
+            foreach (var nameEmployee in NameEmployees)
+            {
+                ListEmployees.Items.Add(nameEmployee);
+            }
+        }
+
         private void ButtonAddEmployee_Click(object sender, RoutedEventArgs e)
         {
             WindowAddEmployee addEmployee = new WindowAddEmployee();
-            ListEmployees.Items.Clear();
             addEmployee.ShowDialog();
             List<string> NameEmployees = new List<string>();
+            var file = new FileInfo(@"Employees.xml");
+            if (!file.Exists) WriteXML(NameEmployees);
             NameEmployees = ReadXML(); 
 
                 if (!NameEmployees.Contains(WindowAddEmployee.TextBox)&& WindowAddEmployee.TextBox!="")
                 {
                     NameEmployees.Add(WindowAddEmployee.TextBox);
                     WriteXML(NameEmployees);
+                    ListEmployees.Items.Clear();
                     for (int i = 0; i < NameEmployees.Count; i++)
                     {
                         ListEmployees.Items.Add(NameEmployees[i]);
                     }
-                    //+++добавить листочек в книгу
-                }
+                //+++добавить листочек в книгу
+                SaveNewTable(FileExcel, GenerateTable(), NameEmployees[NameEmployees.Count - 1]);
+            }
 
         }
         
@@ -340,6 +372,9 @@ namespace Расчет_отпускных
                 List<string> NameEmployees = ReadXML();
                 NameEmployees.RemoveAt(ListEmployees.SelectedIndex);
                 //++++удаление странички сотруднника
+                LastSelected = "";
+                string nameEmpl = ListEmployees.SelectedItem.ToString();
+                DeleteList(FileExcel, nameEmpl);
                 WriteXML(NameEmployees);
                 ListEmployees.Items.Clear();
                 for (int i = 0; i < NameEmployees.Count; i++)
@@ -352,8 +387,21 @@ namespace Расчет_отпускных
                 MessageBox.Show("Выберите сотрудника в списке!");
             }
         }
-        
 
-
+        private void ListEmployees_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (LastSelected != "") SaveExcel(GlobalList, FileExcel, LastSelected);
+            string nameEmpl = ListEmployees.SelectedItem.ToString();
+            LastSelected = nameEmpl;
+            //MessageBox.Show(nameEmpl);
+            GlobalList.Clear();
+            var dataTable = OpenTable(FileExcel, nameEmpl);
+            foreach (var item in dataTable)
+            {
+                GlobalList.Add(item);
+            }
+            mainGrid.Items.Refresh();
+            UpdateCalcData();
+        }
     }
 }
