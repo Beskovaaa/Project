@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Добавление сотрудника" Height="225" Width="400" Icon="Icon.ico" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBox x:Name="TextBoxData" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="50,125,50,0"/>
-        <Button x:Name="ButtonAdd" Content="Добавить" HorizontalAlignment="Left" Margin="142,164,0,0" VerticalAlignment="Top" Width="125" RenderTransformOrigin="0.333,1.3" Click="ButtonAdd_Click" Background="#FF506FFB"/>
-        <Label Content="Введите данные сотрудника" HorizontalAlignment="Left" Margin="50,94,0,0" VerticalAlignment="Top" Width="292"/>
+        <TextBox x:Name="TextBoxData" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="50,125,50,0" FontWeight="Medium"/>
+        <Button x:Name="ButtonAdd" Content="Добавить" HorizontalAlignment="Left" Margin="142,164,0,0" VerticalAlignment="Top" Width="125" RenderTransformOrigin="0.333,1.3" Click="ButtonAdd_Click" Background="#FF9DAFFF" FontWeight="Medium"/>
+        <Label Content="Введите данные сотрудника" HorizontalAlignment="Left" Margin="50,94,0,0" VerticalAlignment="Top" Width="292" FontWeight="Medium"/>
         <Image  Source="Resources/DQS-Logo.jpg" HorizontalAlignment="Left" Height="86" Margin="127,10,0,0" VerticalAlignment="Top" Width="140"/>
 
     </Grid>

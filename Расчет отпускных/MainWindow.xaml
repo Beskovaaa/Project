@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Расчет_отпускных"
         xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012" x:Class="Расчет_отпускных.MainWindow"
         mc:Ignorable="d"
-        Title="Расчет отпускных DQS" Height="600" Width="1117.5"  FontWeight="Bold" Cursor="Pen" Icon="Icon.ico" WindowStartupLocation="CenterScreen" >
+        Title="Расчет отпускных DQS" Height="600" Width="1117.5"  FontWeight="Bold" Cursor="Arrow" Icon="Icon.ico" WindowStartupLocation="CenterScreen" >
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,15 +32,14 @@
                 <DataGridTextColumn Binding="{Binding DaysCalculate, UpdateSourceTrigger=PropertyChanged}" Header="Дни для&#10;расчета"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="1" Grid.Column="1" Width="148" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" Content="SaveExcel" x:Name="saveButton" Click="saveButton_Click" Background="#FF506FFB"/>
-       
-        <ListBox Grid.Row="0" Grid.Column="0" x:Name="ListEmployees" HorizontalAlignment="Left" Height="375" Margin="10,0,0,0" VerticalAlignment="Top" Width="180"/>
-        <Button Grid.Row="1" Grid.Column="1"  x:Name="ButtonPrint" Content="Печать" HorizontalAlignment="Left" Margin="634,10,0,0" VerticalAlignment="Top" Width="148" Click="ButtonPrint_Click" Background="#FF506FFB"/>
-        <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonAddEmployee" Content="Добавить сотрудника" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="180" Click="ButtonAddEmployee_Click" Background="#FF506FFB"/>
-        <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonDeleteEmployee" Content="Удалить сотрудника" HorizontalAlignment="Left" Margin="10,414,0,0" VerticalAlignment="Top" Width="180" Click="ButtonDeleteEmployee_Click" Background="#FF506FFB"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb1" Height="22" Text="Stas1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Background="#FF506FFB"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb2" Height="22" Text="Stas2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0" Background="#FF506FFB"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb3" Height="22" Text="Stas3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="220,10,0,0" Background="#FF506FFB"/>
+
+        <ListBox Grid.Row="0" Grid.Column="0" x:Name="ListEmployees" HorizontalAlignment="Left" Height="375" Margin="10,0,0,0" VerticalAlignment="Top" Width="180" FontWeight="Medium"/>
+        <Button Grid.Row="1" Grid.Column="1"  x:Name="ButtonPrint" Content="Печать" HorizontalAlignment="Left" Margin="634,10,0,0" VerticalAlignment="Top" Width="148" Click="ButtonPrint_Click" Background="#FF9DAFFF" FontWeight="Medium"/>
+        <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonAddEmployee" Content="Добавить сотрудника" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="180" Click="ButtonAddEmployee_Click" Background="#FF9DAFFF" FontWeight="Medium"/>
+        <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonDeleteEmployee" Content="Удалить сотрудника" HorizontalAlignment="Left" Margin="10,414,0,0" VerticalAlignment="Top" Width="180" Click="ButtonDeleteEmployee_Click" Background="#FF9DAFFF" FontWeight="Medium"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb1" Height="22" Text="Stas1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Background="#FF9DAFFF" FontWeight="Medium"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb2" Height="22" Text="Stas2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="115,10,0,0" Background="#FF9DAFFF" FontWeight="Medium"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Width="100" x:Name="tb3" Height="22" Text="Stas3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="220,10,0,0" Background="#FF9DAFFF" FontWeight="Medium"/>
         <Image HorizontalAlignment="Left" Height="125" Grid.Row="1" VerticalAlignment="Top" Width="201" Grid.RowSpan="2" Source="Resources/DQS-Logo.jpg"/>
 
     </Grid>

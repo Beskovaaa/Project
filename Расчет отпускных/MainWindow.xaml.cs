@@ -319,13 +319,18 @@ namespace Расчет_отпускных
             addEmployee.ShowDialog();
             List<string> NameEmployees = new List<string>();
             NameEmployees = ReadXML(); 
-            NameEmployees.Add(WindowAddEmployee.TextBox);
-            WriteXML(NameEmployees);
-            for (int i=0;i<NameEmployees.Count;i++)
-            {
-                ListEmployees.Items.Add(NameEmployees[i]);
-            }            
-            //+++добавить листочек в книгу
+
+                if (!NameEmployees.Contains(WindowAddEmployee.TextBox)&& WindowAddEmployee.TextBox!="")
+                {
+                    NameEmployees.Add(WindowAddEmployee.TextBox);
+                    WriteXML(NameEmployees);
+                    for (int i = 0; i < NameEmployees.Count; i++)
+                    {
+                        ListEmployees.Items.Add(NameEmployees[i]);
+                    }
+                    //+++добавить листочек в книгу
+                }
+
         }
         
         private void ButtonDeleteEmployee_Click(object sender, RoutedEventArgs e)
