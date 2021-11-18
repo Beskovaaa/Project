@@ -403,5 +403,6 @@ namespace Расчет_отпускных
             mainGrid.Items.Refresh();
             UpdateCalcData();
         }
+
     }
 }

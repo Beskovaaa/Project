@@ -33,7 +33,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <ListBox Grid.Row="0" Grid.Column="0" x:Name="ListEmployees" HorizontalAlignment="Left" Height="375" Margin="10,0,0,0" VerticalAlignment="Top" Width="180" FontWeight="Medium"/>
+        <ListBox Grid.Row="0" Grid.Column="0" x:Name="ListEmployees" HorizontalAlignment="Left" Height="375" Margin="10,0,0,0" VerticalAlignment="Top" Width="180" FontWeight="Medium" PreviewMouseUp="ListEmployees_PreviewMouseUp" />
         <Button Grid.Row="1" Grid.Column="1"  x:Name="ButtonPrint" Content="Печать" HorizontalAlignment="Left" Margin="539,5,0,0" VerticalAlignment="Top" Width="344" Click="ButtonPrint_Click" Background="#FF9DAFFF" FontWeight="Medium" Height="20" BorderThickness="0"/>
         <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonAddEmployee" Content="Добавить сотрудника" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="180" Click="ButtonAddEmployee_Click" Background="#FF9DAFFF" FontWeight="Medium" Height="20" BorderThickness="0"/>
         <Button Grid.Row="0" Grid.Column="0" x:Name="ButtonDeleteEmployee" Content="Удалить сотрудника" HorizontalAlignment="Left" Margin="10,414,0,0" VerticalAlignment="Top" Width="180" Click="ButtonDeleteEmployee_Click" Background="#FF9DAFFF" FontWeight="Medium" Height="20" BorderThickness="0" ClipToBounds="True"/>
