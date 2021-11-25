@@ -145,14 +145,13 @@ namespace Расчет_отпускных
             }
         }
 
-        private List<TableLayout> GenerateTable() //
+        private List<TableLayout> getListTableLayout()
         {
             var date = DateTime.Today.Year;
             if (date % 4 == 0) date = 29;
             else date = 28;
             List<TableLayout> outList = new List<TableLayout>()
             {
-                new TableLayout { Month = "декабрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
                 new TableLayout { Month = "январь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
                 new TableLayout { Month = "февраль", DayInMonth = $"{date}", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
                 new TableLayout { Month = "март", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
@@ -163,9 +162,43 @@ namespace Расчет_отпускных
                 new TableLayout { Month = "август", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
                 new TableLayout { Month = "сентябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
                 new TableLayout { Month = "октябрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "ноябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
+                new TableLayout { Month = "ноябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "декабрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
             };
             return outList;
+        }
+
+        private List<TableLayout> GenerateTable() //
+        {
+            var date = DateTime.Today.Year;
+            if (date % 4 == 0) date = 29;
+            else date = 28;
+            List<TableLayout> outList = new List<TableLayout>()
+            {
+                new TableLayout { Month = "январь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "февраль", DayInMonth = $"{date}", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "март", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "апрель", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "май", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "июнь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "июль", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "август", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "сентябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "октябрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "ноябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
+                new TableLayout { Month = "декабрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
+            };
+            List<TableLayout> newOutList = new List<TableLayout>();
+            var date2 = DateTime.Today.Month;
+            for (int i = date2; i < 12; i++)
+            {
+                newOutList.Add(outList[i]);
+            }
+            for (int i = 0; i < date2; i++)
+            {
+                newOutList.Add(outList[i]);
+            }
+            return newOutList;
         }
 
         private void SaveExcel(List<TableLayout> data, FileInfo file, string nameEmpl)
@@ -396,6 +429,36 @@ namespace Расчет_отпускных
             }
         }
 
+        private void UpdateLine()
+        {
+            List<string> monthList = new List<string>()
+            {
+                "январь",
+                "февраль",
+                "март", 
+                "апрель",
+                "май",
+                "июнь", 
+                "июль",
+                "август", 
+                "сентябрь", 
+                "октябрь",
+                "ноябрь",
+                "декабрь"
+            };
+            string LastMonth = GlobalList[GlobalList.Count - 1].Month;
+            int LastNumMonth = monthList.IndexOf(LastMonth) + 1;
+            var date = DateTime.Today.Month;
+            if (date < LastNumMonth) LastNumMonth -= 12;
+            int difference = date - LastNumMonth;
+            if (difference != 0)
+            {
+                List<TableLayout> tl = getListTableLayout();
+                for (int i = 0; i < difference; i++) GlobalList.RemoveAt(0);
+                for (int i = 0; i < difference; i++) GlobalList.Add(tl[date - difference + i]);
+            }
+        }
+
         private void ListEmployees_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (LastSelected != "") SaveExcel(GlobalList, FileExcel, LastSelected);
@@ -408,6 +471,7 @@ namespace Расчет_отпускных
             {
                 GlobalList.Add(item);
             }
+            UpdateLine();
             mainGrid.Items.Refresh();
             UpdateCalcData();
         }
