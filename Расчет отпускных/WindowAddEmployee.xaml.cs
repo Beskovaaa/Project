@@ -35,9 +35,9 @@ namespace Расчет_отпускных
                 Close();
             }
             else
-                MessageBox.Show("Введите данные сотрудника!");
+                MessageBox.Show("Введите данные сотрудника!", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Error);
 
-            
+
         }
 
     }
