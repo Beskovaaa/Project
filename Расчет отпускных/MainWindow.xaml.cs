@@ -88,15 +88,15 @@ namespace Расчет_отпускных
                     getList.Add(new TableLayout()
                     {
                         Month = ws.Cells[i, 1].Value.ToString(),
-                        DayInMonth = ws.Cells[i, 2].Value.ToString(),
-                        SickDays = ws.Cells[i, 3].Value.ToString(),
-                        VacationDays = ws.Cells[i, 4].Value.ToString(),
-                        TotalDays = ws.Cells[i, 5].Value.ToString(),
-                        Wages = ws.Cells[i, 6].Value.ToString(),
-                        PaymentSick = ws.Cells[i, 7].Value.ToString(),
-                        PaymentVacation = ws.Cells[i, 8].Value.ToString(),
-                        TotalWages = ws.Cells[i, 9].Value.ToString(),
-                        DaysCalculate = ws.Cells[i, 10].Value.ToString()
+                        DayInMonth = int.Parse(ws.Cells[i, 2].Value.ToString()),
+                        SickDays = int.Parse(ws.Cells[i, 3].Value.ToString()),
+                        VacationDays = int.Parse(ws.Cells[i, 4].Value.ToString()),
+                        TotalDays = int.Parse(ws.Cells[i, 5].Value.ToString()),
+                        Wages = int.Parse(ws.Cells[i, 6].Value.ToString()),
+                        PaymentSick = int.Parse(ws.Cells[i, 7].Value.ToString()),
+                        PaymentVacation = int.Parse(ws.Cells[i, 8].Value.ToString()),
+                        TotalWages = int.Parse(ws.Cells[i, 9].Value.ToString()),
+                        DaysCalculate = double.Parse(ws.Cells[i, 10].Value.ToString())
                     });
                 }
             }
@@ -152,18 +152,18 @@ namespace Расчет_отпускных
             else date = 28;
             List<TableLayout> outList = new List<TableLayout>()
             {
-                new TableLayout { Month = "январь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "февраль", DayInMonth = $"{date}", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "март", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "апрель", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "май", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "июнь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "июль", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "август", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "сентябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "октябрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "ноябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "декабрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
+                new TableLayout { Month = "январь", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "февраль", DayInMonth = date, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "март", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "апрель", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "май", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "июнь", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "июль", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "август", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "сентябрь", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "октябрь", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "ноябрь", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "декабрь", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 }
             };
             return outList;
         }
@@ -175,18 +175,18 @@ namespace Расчет_отпускных
             else date = 28;
             List<TableLayout> outList = new List<TableLayout>()
             {
-                new TableLayout { Month = "январь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "февраль", DayInMonth = $"{date}", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "март", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "апрель", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "май", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "июнь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "июль", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "август", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "сентябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "октябрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "ноябрь", DayInMonth = "30", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" },
-                new TableLayout { Month = "декабрь", DayInMonth = "31", DaysCalculate = "", PaymentSick = "", PaymentVacation = "", SickDays = "", TotalDays = "", TotalWages = "", VacationDays = "", Wages = "" }
+                new TableLayout { Month = "январь", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "февраль", DayInMonth = date, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "март", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "апрель", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "май", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "июнь", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "июль", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "август", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "сентябрь", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "октябрь", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "ноябрь", DayInMonth = 30, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 },
+                new TableLayout { Month = "декабрь", DayInMonth = 31, DaysCalculate = 0, PaymentSick = 0, PaymentVacation = 0, SickDays = 0, TotalDays = 0, TotalWages = 0, VacationDays = 0, Wages = 0 }
             };
             List<TableLayout> newOutList = new List<TableLayout>();
             var date2 = DateTime.Today.Month;
@@ -241,9 +241,9 @@ namespace Расчет_отпускных
             double sumCalcDay = 0;
             foreach (TableLayout item in GlobalList)
             {
-                if (item.VacationDays != "" && item.VacationDays != "НЕ ЧИСЛО!") sumDay += double.Parse(item.VacationDays);
-                if (item.TotalWages != "" && item.TotalWages != "НЕ ЧИСЛО!") sumWages += double.Parse(item.TotalWages);
-                if (item.DaysCalculate != "" && item.DaysCalculate != "НЕ ЧИСЛО!") sumCalcDay += double.Parse(item.DaysCalculate);
+                if (item.VacationDays != 0) sumDay += item.VacationDays;
+                if (item.TotalWages != 0) sumWages += item.TotalWages;
+                if (item.DaysCalculate != 0) sumCalcDay += item.DaysCalculate;
             }
 
             tb1.Text = string.Format("{0:f0}", sumDay);
@@ -266,83 +266,18 @@ namespace Расчет_отпускных
 
         private void UpdateAfterEdit(TableLayout tableLayoutObj, int numRow)
         {
-            //сделать с double!!!---------------!!!!!!!!!!!!!!!!!!!!!!!!!!
-            Regex regex = new Regex(@"\d");
-            MatchCollection matches1 = regex.Matches(tableLayoutObj.DayInMonth);
-            MatchCollection matches2 = regex.Matches(tableLayoutObj.SickDays);
-            MatchCollection matches3 = regex.Matches(tableLayoutObj.VacationDays);
-            MatchCollection matches4 = regex.Matches(tableLayoutObj.Wages);
-            MatchCollection matches5 = regex.Matches(tableLayoutObj.PaymentSick);
-            MatchCollection matches6 = regex.Matches(tableLayoutObj.PaymentVacation);
-            bool CalcDay = false;
-            bool CalcWages = false;
-            if (matches1.Count == tableLayoutObj.DayInMonth.Length) CalcDay = true;
-            else
+            tableLayoutObj.TotalDays =
+                tableLayoutObj.DayInMonth - tableLayoutObj.SickDays - tableLayoutObj.VacationDays;
+            tableLayoutObj.TotalWages =
+                tableLayoutObj.Wages - tableLayoutObj.PaymentSick - tableLayoutObj.PaymentVacation;
+            if (tableLayoutObj.DayInMonth != 0)
             {
-                tableLayoutObj.DayInMonth = "НЕ ЧИСЛО!";
-                CalcDay = false;
-            }
-            if (matches2.Count == tableLayoutObj.SickDays.Length) CalcDay = true;
-            else
-            {
-                tableLayoutObj.SickDays = "НЕ ЧИСЛО!";
-                CalcDay = false;
-            }
-            if (matches3.Count == tableLayoutObj.VacationDays.Length) CalcDay = true;
-            else
-            {
-                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
-                CalcDay = false;
-            }
-            if (CalcDay && tableLayoutObj.DayInMonth.Length != 0 && tableLayoutObj.SickDays.Length != 0 && tableLayoutObj.VacationDays.Length != 0)
-            {
-                tableLayoutObj.TotalDays =
-                    (double.Parse(tableLayoutObj.DayInMonth) - double.Parse(tableLayoutObj.SickDays) -
-                     double.Parse(tableLayoutObj.VacationDays)).ToString();
+                tableLayoutObj.DaysCalculate = double.Parse(tableLayoutObj.TotalDays.ToString()) /
+                    double.Parse(tableLayoutObj.DayInMonth.ToString()) * 29.3;
             }
             else
             {
-                tableLayoutObj.TotalDays = "НЕ ЧИСЛО!";
-            }
-
-            if (matches4.Count == tableLayoutObj.Wages.Length) CalcWages = true;
-            else
-            {
-                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
-                CalcWages = false;
-            }
-            if (matches5.Count == tableLayoutObj.PaymentSick.Length) CalcWages = true;
-            else
-            {
-                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
-                CalcWages = false;
-            }
-            if (matches6.Count == tableLayoutObj.PaymentVacation.Length) CalcWages = true;
-            else
-            {
-                tableLayoutObj.VacationDays = "НЕ ЧИСЛО!";
-                CalcWages = false;
-            }
-            if (CalcWages && tableLayoutObj.Wages.Length != 0 && tableLayoutObj.PaymentSick.Length != 0 && tableLayoutObj.PaymentVacation.Length != 0)
-            {
-                tableLayoutObj.TotalWages =
-                    (double.Parse(tableLayoutObj.Wages) - double.Parse(tableLayoutObj.PaymentSick) -
-                     double.Parse(tableLayoutObj.PaymentVacation)).ToString();
-            }
-            else
-            {
-                tableLayoutObj.TotalWages = "НЕ ЧИСЛО!";
-            }
-
-            if (CalcDay && tableLayoutObj.DayInMonth.Length != 0 && tableLayoutObj.TotalDays != "НЕ ЧИСЛО!")
-            {
-                tableLayoutObj.DaysCalculate =
-                    string.Format("{0:f8}",(double.Parse(tableLayoutObj.TotalDays) / double.Parse(tableLayoutObj.DayInMonth) *
-                                   29.3));
-            }
-            else
-            {
-                tableLayoutObj.DaysCalculate = "НЕ ЧИСЛО!";
+                tableLayoutObj.DaysCalculate = 0;
             }
 
             GlobalList.RemoveAt(numRow);
@@ -480,5 +415,9 @@ namespace Расчет_отпускных
             UpdateCalcData();
         }
 
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (LastSelected != "") SaveExcel(GlobalList, FileExcel, LastSelected);
+        }
     }
 }

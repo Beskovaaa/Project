@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Расчет_отпускных"
         xmlns:ss="http://schemas.grapecity.com/windows/spreadsheet/2012" x:Class="Расчет_отпускных.MainWindow"
         mc:Ignorable="d"
-        Title="Расчет отпускных DQS" Height="600" Width="1117.5"  FontWeight="Bold" Cursor="Arrow" Icon="Icon.ico" WindowStartupLocation="CenterScreen" >
+        Title="Расчет отпускных DQS" Height="600" Width="1117.5"  FontWeight="Bold" Cursor="Arrow" Icon="Icon.ico" WindowStartupLocation="CenterScreen" Closing="Window_Closing" >
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
