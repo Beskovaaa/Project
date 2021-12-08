@@ -18,7 +18,6 @@ using OfficeOpenXml;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 
 
-
 namespace Расчет_отпускных
 {
     /// <summary>
@@ -35,14 +34,8 @@ namespace Расчет_отпускных
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             InitializeComponent();
-            //var file = new FileInfo("person.xlsx");
-
-            //GlobalList = GenerateTable();
             mainGrid.ItemsSource = GlobalList;
             UpdateCalcData();
-            //mainGrid.CanUserAddRows = false;
-
-            //UpdateCalcData();
             AddEmployees();
 
             if (!FileExcel.Exists)
@@ -292,17 +285,19 @@ namespace Расчет_отпускных
 
         private void ButtonPrint_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Печать в разработке, скоро появится...", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Information);
-            //System.Windows.Controls.PrintDialog print = new System.Windows.Controls.PrintDialog();
-            //if (print.ShowDialog()==true)
-            //{
-
-            //}
+            PrintDialog Printdlg = new PrintDialog();
+            if ((bool)Printdlg.ShowDialog().GetValueOrDefault())
+            {
+                Size pageSize = new Size(Printdlg.PrintableAreaWidth, Printdlg.PrintableAreaHeight);
+                mainGrid.Measure(pageSize);
+                mainGrid.Arrange(new Rect(5, 5, pageSize.Width + 100.0, pageSize.Height));
+                Printdlg.PrintVisual(mainGrid, Title);
+            }
         }
         private void WriteXML(List<string> itemsList)
-            => (new XDocument(new XElement("itemsList", itemsList.ConvertAll(item => new XElement("item", item))))).Save(@"Employees.xml");
+            => new XDocument(new XElement("itemsList", itemsList.ConvertAll(item => new XElement("item", item)))).Save(@"Employees.xml");
         private List<string> ReadXML()
-          => (XDocument.Load(@"Employees.xml")).Element("itemsList")?.Elements("item").Select(item => item.Value).ToList();
+          => XDocument.Load(@"Employees.xml").Element("itemsList")?.Elements("item").Select(item => item.Value).ToList();
 
         private void AddEmployees() //добавление на форму при запуске
         {
@@ -401,18 +396,22 @@ namespace Расчет_отпускных
         private void ListEmployees_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (LastSelected != "") SaveExcel(GlobalList, FileExcel, LastSelected);
-            string nameEmpl = ListEmployees.SelectedItem.ToString();
-            LastSelected = nameEmpl;
-            //MessageBox.Show(nameEmpl);
-            GlobalList.Clear();
-            var dataTable = OpenTable(FileExcel, nameEmpl);
-            foreach (var item in dataTable)
+            if (ListEmployees.SelectedItem != null)
             {
-                GlobalList.Add(item);
+                string nameEmpl = ListEmployees.SelectedItem.ToString();
+                LastSelected = nameEmpl;
+                //MessageBox.Show(nameEmpl);
+                GlobalList.Clear();
+                var dataTable = OpenTable(FileExcel, nameEmpl);
+                foreach (var item in dataTable)
+                {
+                    GlobalList.Add(item);
+                }
+
+                UpdateLine();
+                mainGrid.Items.Refresh();
+                UpdateCalcData();
             }
-            UpdateLine();
-            mainGrid.Items.Refresh();
-            UpdateCalcData();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
